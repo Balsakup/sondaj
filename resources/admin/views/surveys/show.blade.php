@@ -46,7 +46,7 @@
                     @foreach ($survey->pages as $page)
                         <tr>
                             <td>{{ $page->name }}</td>
-                            <td>N/A</td>
+                            <td>{{ $page->question_count }}</td>
                             <td class="text-right">
                                 <a href="{{ route('admin::pages.show', $page) }}" class="btn btn-sm btn-outline-info" data-toggle="tooltip" title="Voir et ajouter des questions">
                                     <span class="fa fa-eye"></span>

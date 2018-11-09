@@ -22,4 +22,9 @@ class Page extends Model
     {
         return $this->hasMany(Question::class);
     }
+
+    public function getQuestionCountAttribute()
+    {
+        return $this->questions->count();
+    }
 }

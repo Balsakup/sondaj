@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Admin\Questions\StoreRequest;
-use App\Http\Requests\Admin\Questions\UpdateRequest;
-use App\Question;
-use App\QuestionType;
+use App\Answer;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Answers\StoreRequest;
+use App\Http\Requests\Admin\Answers\UpdateRequest;
 
-class QuestionsController extends Controller
+class AnswersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -33,13 +32,13 @@ class QuestionsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Admin\Questions\StoreRequest  $request
+     * @param  \App\Http\Requests\Admin\Answers\StoreRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreRequest $request)
     {
-        if ($question = Question::create($request->only('name', 'question_type_id', 'page_id'))) {
-            return redirect()->route('admin::questions.show', compact('question'));
+        if (Answer::create($request->only('name', 'value', 'question_id'))) {
+            return back();
         }
 
         return back()->with('danger', 'Une erreur est survenue');
@@ -53,11 +52,7 @@ class QuestionsController extends Controller
      */
     public function show($id)
     {
-        if ($question = Question::find($id)) {
-            return view('admin::questions.show', compact('question'));
-        }
-
-        return back()->with('danger', 'Une erreur est survenue');
+        //
     }
 
     /**
@@ -68,9 +63,8 @@ class QuestionsController extends Controller
      */
     public function edit($id)
     {
-        if ($question = Question::find($id)) {
-            $questionTypes = QuestionType::pluck('label', 'id');
-            return view('admin::questions.edit', compact('question', 'questionTypes'));
+        if ($answer = Answer::find($id)) {
+            return view('admin::answers.edit', compact('answer'));
         }
 
         return back()->with('danger', 'Une erreur est survenue');
@@ -79,18 +73,18 @@ class QuestionsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Admin\Questions\UpdateRequest  $request
+     * @param  \App\Http\Requests\Admin\Answers\UpdateRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateRequest $request, $id)
     {
-        if ($question = Question::find($id)) {
-            $question->name             = $request->get('name');
-            $question->question_type_id = $request->get('question_type_id');
+        if ($answer = Answer::find($id)) {
+            $answer->name  = $request->get('name');
+            $answer->value = $request->get('value');
 
-            if ($question->save()) {
-                return redirect()->route('admin::pages.show', $question->page_id)->with('success', 'La question a bien été modifiée');
+            if ($answer->save()) {
+                return redirect()->route('admin::questions.show', $answer->question_id)->with('success', 'La réponse a bien été modifiée');
             }
         }
 
@@ -105,8 +99,8 @@ class QuestionsController extends Controller
      */
     public function destroy($id)
     {
-        if (Question::destroy($id)) {
-            return back()->with('success', 'La question a bien été supprimée');
+        if (Answer::destroy($id)) {
+            return back()->with('success', 'La réponse a bien été supprimée');
         }
 
         return back()->with('danger', 'Une erreur est survenue');

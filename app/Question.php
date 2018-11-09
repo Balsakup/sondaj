@@ -22,4 +22,14 @@ class Question extends Model
     {
         return $this->belongsTo(QuestionType::class, 'question_type_id');
     }
+
+    public function answers()
+    {
+        return $this->hasMany(Answer::class);
+    }
+
+    public function getAnswerCountAttribute()
+    {
+        return $this->answers->count();
+    }
 }
