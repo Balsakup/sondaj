@@ -28,6 +28,11 @@ class Question extends Model
         return $this->hasMany(Answer::class);
     }
 
+    public function rules()
+    {
+        return $this->hasMany(QuestionRule::class);
+    }
+
     public function getAnswerCountAttribute()
     {
         return $this->answers->count();
