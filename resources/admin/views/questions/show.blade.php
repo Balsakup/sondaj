@@ -128,7 +128,109 @@
             </div>
         </div>
     @elseif (request('page') === 'actions')
+        <div class="card">
+            <div class="card-body">
+                {!! Form::open([ 'route' => 'admin::questionactions.store' ]) !!}
 
+                    {!! Form::hidden('question_id', $question->id) !!}
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                {!! Form::label('action_id', 'Règle à utiliser<span class="text-danger">*</span>', null, false) !!}
+                                <select name="action_id" id="action_id" class="form-control{{ $errors->has('action_id') ? ' is-invalid' : '' }}">
+                                    <option selected disabled>Choisissez une action</option>
+                                    @foreach ($actions as $action)
+                                        <option value="{{ $action->id }}" data-name="{{ $action->name }}">{{ $action->label }}</option>
+                                    @endforeach
+                                </select>
+
+                                @if ($errors->has('action_id'))
+                                    <span class="invalid-feedback">{{ $errors->first('action_id') }}</span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="src_sign">&nbsp;</label>
+                                <select name="src_sign" id="src_sign" class="form-control">
+                                    <option selected disabled>---</option>
+                                    <option value="==">Egale</option>
+                                    <option value=">">Supérieur</option>
+                                    <option value="<">Inférieur</option>
+                                    <option value=">=">Supérieur ou égale</option>
+                                    <option value="<=">Inférieur ou égale</option>
+                                    <option value="!=">Différent</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                {!! Form::label('src_value', 'Valeur<span class="text-danger">*</span>', null, false) !!}
+                                @if ($question->type->is_multiple)
+                                    <select name="src_value" id="src_value" class="form-control{{ $errors->has('src_value') ? ' is-invalid' : '' }}">
+                                        <option selected disabled>---</option>
+                                        @foreach ($question->answers as $answer)
+                                            <option value="{{ $answer->id }}">{{ $answer->name }}</option>
+                                        @endforeach
+                                    </select>
+                                @else
+                                    {!! Form::text('src_value', null, [ 'class' => 'form-control' . ($errors->has('src_value') ? ' is-invalid' : '') ]) !!}
+                                @endif
+
+                                @if ($errors->has('src_value'))
+                                    <span class="invalid-feedback">{{ $errors->has('src_value') }}</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        {!! Form::label('conditions', 'Conditions<span class="text-danger">*</span>', null, false) !!}
+                        {!! Form::textarea('conditions', null, [ 'class' => 'form-control' . ($errors->has('conditions') ? ' is-invalid' : ''), 'rows' => 3, 'readonly' ]) !!}
+
+                        @if ($errors->has('conditions'))
+                            <span class="invalid-feedback">{{ $errors->first('conditions') }}</span>
+                        @endif
+                    </div>
+
+                    <div class="form-group mb-0">
+                        <hr>
+                        {!! Form::button('Ajouter', [ 'type' => 'submit', 'class' => 'btn btn-outline-success' ]) !!}
+                    </div>
+
+                {!! Form::close() !!}
+            </div>
+
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Action</th>
+                            <th class="text-right">
+                                <span class="fa fa-toolbox"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($question->actions as $action)
+                            <tr style="border-left: 5px solid #{{ substr(md5($action->action->name), -6) }};">
+                                <td>{{ $action->action->label }}</td>
+                                <td>{{ $action->conditions }}</td>
+                                <td class="text-right">
+                                    <a href="{{ route('admin::questionactions.destroy', $action) }}" class="btn btn-sm btn-outline-danger" onclick="confirm('Voulez-vous vraiment supprimer cette action ?') ? document.getElementById('questionactions-destroy-{{ $action->id }}').submit() : false; return false;">
+                                        <span class="fa fa-trash"></span>
+                                    </a>
+
+                                    {!! Form::open([ 'route' => [ 'admin::questionactions.destroy', $action ], 'id' => 'questionactions-destroy-' . $action->id, 'method' => 'DELETE' ]) !!}{!! Form::close() !!}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
     @else
         @if ($question->type->is_multiple)
             <div class="card">

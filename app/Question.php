@@ -33,6 +33,11 @@ class Question extends Model
         return $this->hasMany(QuestionRule::class);
     }
 
+    public function actions()
+    {
+        return $this->hasMany(QuestionAction::class);
+    }
+
     public function getAnswerCountAttribute()
     {
         return $this->answers->count();

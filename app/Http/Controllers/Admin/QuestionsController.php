@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Action;
 use App\Http\Requests\Admin\Questions\StoreRequest;
 use App\Http\Requests\Admin\Questions\UpdateRequest;
 use App\Question;
@@ -57,8 +58,9 @@ class QuestionsController extends Controller
     {
         if ($question = Question::find($id)) {
             $rules     = Rule::get();
+            $actions   = Action::get();
             $questions = $question->page->questions;
-            return view('admin::questions.show', compact('question', 'rules', 'questions'));
+            return view('admin::questions.show', compact('question', 'rules', 'questions', 'actions'));
         }
 
         return back()->with('danger', 'Une erreur est survenue');

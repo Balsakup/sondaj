@@ -19,4 +19,5 @@ Route::group([ 'namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin::' ],
     Route::resource('questions', 'QuestionsController');
     Route::resource('answers', 'AnswersController');
     Route::resource('questionrules', 'QuestionRulesController');
+    Route::resource('questionactions', 'QuestionActionsController');
 });

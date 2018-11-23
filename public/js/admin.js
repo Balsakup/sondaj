@@ -17015,6 +17015,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             $('[name="conditions"]').val(rule + ':questions[' + question + '] ' + sign + ' \'' + value + '\'');
         }
     });
+
+    $(document).on('change input keydown keyup keypress', '[name="action_id"], [name="src_sign"], [name="src_value"]', function (event) {
+        //const elem     = $(event.target);
+        var action = $('[name="action_id"]').find('option:selected').data('name');
+        var sign = $('[name="src_sign"]').val();
+        var value = $('[name="src_value"]').val();
+
+        if (action && sign) {
+            $('[name="conditions"]').val(action + ':this ' + sign + ' \'' + value + '\'');
+        }
+    });
 })(jQuery);
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 

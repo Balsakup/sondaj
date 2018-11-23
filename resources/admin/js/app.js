@@ -37,4 +37,15 @@ import 'bootstrap';
         }
     });
 
+    $(document).on('change input keydown keyup keypress', '[name="action_id"], [name="src_sign"], [name="src_value"]', function (event) {
+        //const elem     = $(event.target);
+        const action = $('[name="action_id"]').find('option:selected').data('name');
+        const sign   = $('[name="src_sign"]').val();
+        const value  = $('[name="src_value"]').val();
+
+        if (action && sign) {
+            $('[name="conditions"]').val(`${action}:this ${sign} '${value}'`);
+        }
+    });
+
 })(jQuery);

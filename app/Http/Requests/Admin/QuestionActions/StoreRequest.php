@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin\QuestionRules;
+namespace App\Http\Requests\Admin\QuestionActions;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,7 +25,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'conditions'  => 'required|string',
-            'rule_id'     => 'required|numeric|exists:rules,id',
+            'action_id'   => 'required|numeric|exists:actions,id',
             'question_id' => 'required|numeric|exists:questions,id'
         ];
     }
@@ -36,9 +36,9 @@ class StoreRequest extends FormRequest
             'conditions.required'  => 'Les conditions sont requises',
             'conditions.string'    => 'Les conditions doivent être une chaîne de caractères',
 
-            'rule_id.required'     => 'La règle est requise',
-            'rule_id.numeric'      => 'La règle doit être un nombre',
-            'rule_id.exists'       => 'La règle n\'existe pas',
+            'action_id.required'   => 'L\'action est requise',
+            'action_id.numeric'    => 'L\'action doit être un nombre',
+            'action_id.exists'     => 'L\'action n\'existe pas',
 
             'question_id.required' => 'La question est requise',
             'question_id.numeric'  => 'La question doit être un nombre',
