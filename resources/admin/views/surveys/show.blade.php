@@ -42,10 +42,13 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody data-sortable="\App\Page">
                     @foreach ($survey->pages as $page)
-                        <tr>
-                            <td>{{ $page->name }}</td>
+                        <tr class="table-align-middle" data-id="{{ $page->id }}">
+                            <td>
+                                <span class="fa fa-bars" style="cursor: move;"></span>
+                                <span class="ml-3">{{ $page->name }}</span>
+                            </td>
                             <td>{{ $page->question_count }}</td>
                             <td class="text-right">
                                 <a href="{{ route('admin::pages.show', $page) }}" class="btn btn-sm btn-outline-info" data-toggle="tooltip" title="Voir et ajouter des questions">

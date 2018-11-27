@@ -12,6 +12,7 @@ class QuestionRule extends Model
 
     protected $fillable = [ 'conditions', 'question_id', 'rule_id' ];
     protected $dates    = [ 'created_at', 'updated_at', 'deleted_at' ];
+    protected $hidden   = [ 'rule_id', 'question_id', 'created_at', 'updated_at', 'deleted_at' ];
 
     public function question()
     {

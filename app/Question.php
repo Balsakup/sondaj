@@ -10,8 +10,9 @@ class Question extends Model
 
     use SoftDeletes;
 
-    protected $fillable = [ 'name', 'question_type_id', 'page_id' ];
+    protected $fillable = [ 'name', 'question_type_id', 'page_id', 'position' ];
     protected $dates    = [ 'created_at', 'updated_at', 'deleted_at' ];
+    protected $hidden   = [ 'question_type_id', 'page_id', 'created_at', 'updated_at', 'deleted_at' ];
 
     public function page()
     {
@@ -25,7 +26,7 @@ class Question extends Model
 
     public function answers()
     {
-        return $this->hasMany(Answer::class);
+        return $this->hasMany(Answer::class)->orderBy('position', 'ASC');
     }
 
     public function rules()

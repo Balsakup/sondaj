@@ -13,13 +13,16 @@
         "@coreui/coreui": "^2.1.0",
         "@fortawesome/fontawesome-free": "^5.5.0",
         "axios": "^0.18",
+        "babel-plugin-syntax-dynamic-import": "^6.18.0",
         "bootstrap": "^4.0.0",
         "cross-env": "^5.1",
         "jquery": "^3.2",
         "laravel-mix": "^2.0",
         "perfect-scrollbar": "^1.4.0",
         "popper.js": "^1.12",
+        "sortablejs": "^1.7.0",
         "turbolinks": "^5.2.0",
-        "vue": "^2.5.17"
+        "vue": "^2.5.17",
+        "vue-router": "^3.0.2"
     }
 }

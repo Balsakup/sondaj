@@ -55,10 +55,13 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody data-sortable="\App\Question">
                     @foreach ($page->questions as $question)
-                        <tr>
-                            <td style="border-left: 5px solid #{{ substr(md5($question->type->name), 0, 6) }};">{{ $question->name }}</td>
+                        <tr class="table-align-middle" data-id="{{ $question->id }}">
+                            <td style="border-left: 5px solid #{{ substr(md5($question->type->name), 0, 6) }};">
+                                <span class="fa fa-bars" style="cursor: move;"></span>
+                                <span class="ml-3">{{ $question->name }}</span>
+                            </td>
                             <td>{{ $question->type->label }}</td>
                             <td>
                                 @if ($question->type->is_multiple)

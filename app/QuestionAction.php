@@ -12,6 +12,7 @@ class QuestionAction extends Model
 
     protected $fillable = [ 'conditions', 'question_id', 'action_id' ];
     protected $dates    = [ 'created_at', 'updated_at', 'deleted_at' ];
+    protected $hidden   = [ 'action_id', 'question_id', 'created_at', 'updated_at', 'deleted_at' ];
 
     public function question()
     {

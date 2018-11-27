@@ -213,7 +213,7 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody data-sortable>
                         @foreach ($question->actions as $action)
                             <tr style="border-left: 5px solid #{{ substr(md5($action->action->name), -6) }};">
                                 <td>{{ $action->action->label }}</td>
@@ -278,10 +278,13 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody data-sortable="\App\Answer">
                             @foreach ($question->answers as $answer)
-                                <tr>
-                                    <td>{{ $answer->name }}</td>
+                                <tr class="table-align-middle" data-id="{{ $answer->id }}">
+                                    <td>
+                                        <span class="fa fa-bars" style="cursor: move;"></span>
+                                        <span class="ml-3">{{ $answer->name }}</span>
+                                    </td>
                                     <td>{{ $answer->value }}</td>
                                     <td class="text-right">
                                         <a href="{{ route('admin::answers.edit', $answer) }}" class="btn btn-sm btn-outline-success" data-toggle="tooltip" title="Editer la réponse">

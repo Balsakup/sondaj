@@ -1,7 +1,14 @@
 import '@coreui/coreui';
 import 'bootstrap';
+import Sortable from 'sortablejs';
 
 (function ($) {
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
@@ -47,5 +54,33 @@ import 'bootstrap';
             $('[name="conditions"]').val(`${action}:this ${sign} '${value}'`);
         }
     });
+
+    if ($('[data-sortable]').length) {
+        Sortable.create($('[data-sortable]')[0], {
+            animation: 150,
+            scroll   : true,
+            handle   : '.fa.fa-bars',
+            onEnd    : (event) => {
+                const from  = $($(event.from).find('tr').get(event.oldIndex)).data('id');
+                const to    = $($(event.to).find('tr').get(event.newIndex)).data('id');
+                const model = $(event.from).data('sortable');
+
+                $.ajax({
+                    url    : '/admin/sort',
+                    type   : 'POST',
+                    data   : { model, from, to },
+                    success: (response) => {
+                        if (!response.success) {
+                            alert('Une erreur est survenue\n' + response.message);
+                        }
+                    },
+                    error  : (error) => {
+                        alert('Une erreur est survenue');
+                        console.error(error);
+                    }
+                });
+            }
+        });
+    }
 
 })(jQuery);
